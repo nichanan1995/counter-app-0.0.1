@@ -1,125 +1,212 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'screens/signature.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-void main() => runApp(MaterialApp(home: QRViewExample()));
+//import 'screens/register.dart';
+import 'package:http/http.dart' show get;
+import 'dart:convert';
+import './models/json_model.dart';
+import './screens/service.dart';
 
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({
-    Key key,
-
-  }) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+void main() {
+  runApp(App());
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  var qrText = "";
-  int _counter = 0;
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sun Authen',
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final formKey = GlobalKey<FormState>();
+  final _scaffold = GlobalKey<ScaffoldState>();
+
+  String emailString, passwordString, nameString, truePassword, idString;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-          title: const Text('Counter example'),
-        ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-            ),
-            flex: 4,
-          ),
-          // Expanded(          
-          //   child: Text("result of scan: $qrText"),
-            
-          //   //flex: 1,
-          // ),
-          Container(
-            margin: EdgeInsets.only(left: 20.0,top: 40.0,bottom: 40.0),
-            child: Row(
-              children: <Widget>[
-                Text("Tracking : $qrText"),
-                RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0)),
-                      color: Colors.orange,
-                      textColor: Colors.green,
-                      onPressed: () {
-                        print('$qrText');
-                      },
-                      child: signUpButton(context),
+        key: _scaffold,
+        body: Form(
+          key: formKey,
+          child: ListView(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 50.0),
+                child: logoShow(),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: titleApp(),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                child: emailTextField(),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                child: passwordTextField(),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                child: Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: signInButton(context),
                     ),
-                    new Text("จำนวน : $_counter")
-          //FloatingActionButton(onPressed: signUpButton(context), child: Icon(Icons.save)),
-                //Icon(Icons.save)
-              ],
-              
-            ),
-          )
-        
-        ],
+                    // new Expanded(
+                    //   child: signUpButton(context),
+                    // ),
+                    //new Expanded(child: Container(child: testText(),)
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+
+  Widget testText() {
+    return Text('textText');
+  }
+
+  Widget logoShow() {
+    return Image.asset('images/945.png');
+  }
+
+  Widget titleApp() {
+    return Text(
+      '',
+      style: TextStyle(
+        fontSize: 30.0,
+        fontFamily: 'Kanit-Bold',
+        fontWeight: FontWeight.bold,
+        color: Colors.orange[800],
       ),
     );
   }
 
-Widget signUpButton(BuildContext context) {
-    return RaisedButton(
-      color: Colors.green,
-      child: Text(
-        'Save',
-        style: TextStyle(color: Colors.white),
-      ),
-      onPressed: () {
-        print('your click SignIn');
-        var myRounte = new MaterialPageRoute(
-            builder: (BuildContext context) => Register());
-        Navigator.of(context).push(myRounte);
+  Widget emailTextField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: 'Email Address:', hintText: 'your@email.com'),
+      validator: (String value) {
+        if (!value.contains('@')) {
+          return 'โอ๊ยหน๊อ พิมพ์ใหม่เส่ !!!';
+        }
+      },
+      onSaved: (String value) {
+        emailString = value;
       },
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    final channel = controller.channel;
-    controller.init(qrKey);
-    channel.setMethodCallHandler((MethodCall call) async {
-      switch (call.method) {
-        case "onRecognizeQR":
-          dynamic arguments = call.arguments;
-           sendtoserver(this.qrText);
-          setState(() {
-            
-            qrText = arguments.toString();
-            _counter++;
-          }
-          
-          );
+  Widget passwordTextField() {
+    return TextFormField(
+      obscureText: true,
+      decoration:
+          InputDecoration(labelText: 'Password:', hintText: 'more 5 Charactor'),
+      validator: (String value) {
+        if (value.length <= 5) {
+          return 'กรอกใหม่ซิ !';
+        }
+      },
+      onSaved: (String value) {
+        passwordString = value;
+      },
+    );
+  }
+
+  Widget signInButton(BuildContext context) {
+    return RaisedButton(
+      color: Colors.yellow,
+      child: Text(
+        'SignIn',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        print('your click SignUp');
+        //print(formKey.currentState.validate());
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          checkEmailAndPass(context, emailString, passwordString);
+        }
+      },
+    );
+  }
+
+  void checkEmailAndPass(
+      BuildContext context, String email, String password) async {
+    print('email ==>$email,password==>$password');
+
+    String urlString =
+        'http://androidthai.in.th/sun/getUserWhereUserOil.php?isAdd=true&User=$email';
+    var response = await get(urlString);
+    var result = json.decode(response.body);
+    print('result==>$result');
+    if (result.toString() == 'null') {
+      showSnackBar('User fail');
+    } else {
+      for (var data in result) {
+        print('data==>$data');
+        var jsonModel = JsonModel.fromJson(data);
+
+        truePassword = jsonModel.password.toString();
+        nameString = jsonModel.name.toString();
+        idString = jsonModel.id.toString();
+
+        print(
+            'id==>$idString, nameString==>$nameString,truePassword ==>$truePassword');
       }
-    });
+      if (passwordString == truePassword) {
+        showSnackBar('USER : $nameString');
+
+        var serviceRoute =
+            new MaterialPageRoute(builder: (BuildContext context) => Service(nameLoginString: nameString,));
+        Navigator.of(context).push(serviceRoute);
+
+      } else {
+        showSnackBar('ออกไปซะ !!');
+      }
+    } //if
   }
 
-//   void _incrementCounter() {
-//   setState(() {
-//     _counter++;
-//   });
-// }
-
-  Future sendtoserver(data) async {
-    print('============');
-    print(data);
-    print('rrrr');
-    print('============');
-
-    var url = 'http://androidthai.in.th/sun/addDataOill.php';
-    var response =
-        await http.post(url, body: {'isAdd': 'true', 'Barcode': data});
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+  void showSnackBar(String messageString) {
+    final snackBar = new SnackBar(
+      content: Text(messageString),
+      backgroundColor: Colors.orange[200],
+      duration: new Duration(seconds: 4),
+      action: new SnackBarAction(
+        label: 'Please Click',
+        onPressed: () {
+          print('You Click SnackBare');
+        },
+      ),
+    );
+    _scaffold.currentState.showSnackBar(snackBar);
   }
-}
+
+  // Widget signUpButton(BuildContext context) {
+  //   return RaisedButton(
+  //     color: Colors.orange,
+  //     child: Text(
+  //       'SignUp',
+  //       style: TextStyle(color: Colors.white),
+  //     ),
+  //     onPressed: () {
+  //       print('your click SignIn');
+  //       var myRounte = new MaterialPageRoute(
+  //           builder: (BuildContext context) => Register());
+  //       Navigator.of(context).push(myRounte);
+  //     },
+  //   );
+  // }
+} //_HomePageState
