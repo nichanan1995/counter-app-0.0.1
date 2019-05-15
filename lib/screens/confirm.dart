@@ -44,45 +44,55 @@ class _RegisterState extends State<Register> {
                 margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
                 child: licenTextField(),
               ),
-              // Container(
-              //   margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20),
-              //   child: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: <Widget>[
-              //       RaisedButton(
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(7.0)),
-              //         color: Colors.yellow,
-              //         textColor: Colors.red,
-              //         onPressed: () {
-              //           print('DHL');
-              //         },
-              //         child: const Text('DHL'),
-              //       ),
-              //       RaisedButton(
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(7.0)),
-              //         color: Colors.orange,
-              //         textColor: Colors.green,
-              //         onPressed: () {
-              //           print('ALPHA');
-              //         },
-              //         child: const Text('ALPHA'),
-              //       ),
-              //       RaisedButton(
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(7.0)),
-              //         onPressed: () {
-              //           print('FLASH');
-              //         },
-              //         color: Colors.black,
-              //         textColor: Colors.yellow,
-              //         padding: const EdgeInsets.all(0.0),
-              //         child: Text('FLASH'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Container(
+                margin: EdgeInsets.only(top: 30.0,left: 90.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                   new Container(
+                     margin: EdgeInsets.all(10.0),
+                     child: new Image.asset(
+                       "images/dhl.png",
+                       height: 90.0,
+                     ),
+                   ),
+                    new Container(
+                     margin: EdgeInsets.all(10.0),
+                     child: new Image.asset(
+                       "images/alpha.png",
+                       height: 90.0,
+                     ),
+                   ),
+                    
+                  ],
+                ),
+              ),
+
+
+              Container(
+                margin: EdgeInsets.only(top: 30.0,left: 90.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new Container(
+                     margin: EdgeInsets.all(10.0),
+                     child: new Image.asset(
+                       "images/kerry.jpg",
+                       height: 90.0,
+                     ),
+                   ),
+                   new Container(
+                     margin: EdgeInsets.all(10.0),
+                     child: new Image.asset(
+                       "images/flash.png",
+                       height: 90.0,
+                     ),
+                   )
+                  ],
+                ),
+              ),
+
+
               Container(
                 margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 7.0),
                 child: transTextField(),
@@ -91,33 +101,6 @@ class _RegisterState extends State<Register> {
                 margin: EdgeInsets.only(left: 50.0, right: 50.0,top: 7.0),
                 child: nameTextField(),
               ),
-              
-      //         Container(
-              
-      //           margin: EdgeInsets.all(20.0),
-      //           padding: EdgeInsets.all(10.0),
-      //           alignment: Alignment.topCenter,
-      //           width: 200,
-      //           height: 210,
-      //           color: Colors.blue[100],
-      //           child: new GestureDetector(
-      //     onPanUpdate: (DragUpdateDetails details) {
-      //       setState(() {
-      //         RenderBox object = context.findRenderObject();
-      //         Offset _localPosition =
-      //             object.globalToLocal(details.globalPosition);
-      //         _points = new List.from(_points)..add(_localPosition);
-      //       });
-      //     },
-      //     onPanEnd: (DragEndDetails details) => _points.add(null),
-      //     child: new CustomPaint(
-      //       painter: new Signature(points: _points),
-      //       size: Size.infinite,
-      //     ),
-      //   ),
-      // ),
-              
-
               Container(
                 margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
                 
@@ -196,7 +179,7 @@ class _RegisterState extends State<Register> {
 
   Widget transTextField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'ขนส่ง:'),
+      decoration: InputDecoration(labelText: 'ผู้ส่งของ:'),
       validator: (String value) {
         if (value.length == 0) {
           return 'trans not Blank ?';
@@ -210,7 +193,7 @@ class _RegisterState extends State<Register> {
 
   Widget nameTextField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'ผู้รับ:'),
+      decoration: InputDecoration(labelText: 'ผู้รับของ:'),
       validator: (String value) {
         if (value.length == 0) {
           return 'Name not Blank ?';

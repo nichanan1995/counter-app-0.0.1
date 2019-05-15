@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'screens/register.dart';
+import 'screens/confirm.dart';
 import 'package:http/http.dart' show get;
 import 'dart:convert';
 import './models/json_model.dart';
 import './screens/service.dart';
+import './home.dart';
 
 void main() {
   runApp(App());
@@ -40,37 +41,60 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 50.0),
+                margin: EdgeInsets.only(top: 60.0),height: 250.0,
                 child: logoShow(),
               ),
+              
               Container(
-                alignment: Alignment.center,
+                alignment: Alignment.center,margin: EdgeInsets.only(top: 100.0,bottom: 20.0),
                 child: titleApp(),
               ),
+              Padding(
+            padding: const EdgeInsets.only(right: 20.0,left: 20.0,top: 40.0,bottom: 20.0),
+            child: new TextField(
+              //controller: Text('data'),
+              keyboardType: TextInputType.number,
+              maxLength: 10,
+              decoration: InputDecoration(
+                  border: new OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.white)),
+                  //hintText: 'Enter your phone number',
+                  labelText: 'Enter your phone number',
+                  labelStyle: new TextStyle(fontSize: 18.0),
+                  prefixIcon: const Icon(
+                  Icons.phone_android,
+                  color: Colors.blueAccent,
+                  ),
+                  ),
+
+
+            ),
+
+
+          ),
               Container(
-                margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                child: emailTextField(),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                child: passwordTextField(),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                margin: EdgeInsets.only(left: 50.0, right: 40.0,top: 50.0),
                 child: Row(
                   children: <Widget>[
                     new Expanded(
                       child: signInButton(context),
                     ),
-                    // new Expanded(
-                    //   child: signUpButton(context),
-                    // ),
-                    //new Expanded(child: Container(child: testText(),)
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 40.0,top: 2.0),
+                child: Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: signUpButton(context),
+                    ),
                   ],
                 ),
               )
             ],
           ),
+          
         ));
   }
 
@@ -79,17 +103,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget logoShow() {
-    return Image.asset('images/945.png');
+    return Image.asset('images/logostart.png');
   }
 
   Widget titleApp() {
     return Text(
-      '',
+      'Enter your Phone number',
+    
       style: TextStyle(
-        fontSize: 30.0,
+        fontSize: 18.0,
         fontFamily: 'Kanit-Bold',
         fontWeight: FontWeight.bold,
-        color: Colors.orange[800],
+        color: Colors.blue[800],
       ),
     );
   }
@@ -97,12 +122,8 @@ class _HomePageState extends State<HomePage> {
   Widget emailTextField() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: 'Email Address:', hintText: 'your@email.com'),
-      validator: (String value) {
-        if (!value.contains('@')) {
-          return 'โอ๊ยหน๊อ พิมพ์ใหม่เส่ !!!';
-        }
-      },
+          labelText: 'Email Address:', border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0))),
+  
       onSaved: (String value) {
         emailString = value;
       },
@@ -113,7 +134,8 @@ class _HomePageState extends State<HomePage> {
     return TextFormField(
       obscureText: true,
       decoration:
-          InputDecoration(labelText: 'Password:', hintText: 'more 5 Charactor'),
+          InputDecoration(labelText: 'Password:',
+           hintText: 'more 5 Charactor', border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0))),
       validator: (String value) {
         if (value.length <= 5) {
           return 'กรอกใหม่ซิ !';
@@ -127,10 +149,11 @@ class _HomePageState extends State<HomePage> {
 
   Widget signInButton(BuildContext context) {
     return RaisedButton(
-      color: Colors.yellow,
+      color: Colors.blue,
       child: Text(
-        'SignIn',
-        style: TextStyle(color: Colors.white),
+        'LOGIN',
+        style: new TextStyle(fontSize: 18.0 ,color: Colors.white.withOpacity(1.0)),
+                  textAlign: TextAlign.center,
       ),
       onPressed: () {
         print('your click SignUp');
@@ -194,19 +217,19 @@ class _HomePageState extends State<HomePage> {
     _scaffold.currentState.showSnackBar(snackBar);
   }
 
-  // Widget signUpButton(BuildContext context) {
-  //   return RaisedButton(
-  //     color: Colors.orange,
-  //     child: Text(
-  //       'SignUp',
-  //       style: TextStyle(color: Colors.white),
-  //     ),
-  //     onPressed: () {
-  //       print('your click SignIn');
-  //       var myRounte = new MaterialPageRoute(
-  //           builder: (BuildContext context) => Register());
-  //       Navigator.of(context).push(myRounte);
-  //     },
-  //   );
-  // }
+  Widget signUpButton(BuildContext context) {
+    return RaisedButton(
+      color: Colors.orange,
+      child: Text(
+        'SignUp',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        print('your click SignIn');
+        var myRounte = new MaterialPageRoute(
+            builder: (BuildContext context) => QRViewExample());
+        Navigator.of(context).push(myRounte);
+      },
+    );
+  }
 } //_HomePageState

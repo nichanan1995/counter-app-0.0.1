@@ -4,7 +4,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'screens/confirm.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-void main() => runApp(MaterialApp(home: QRViewExample()));
+import 'package:shared_preferences/shared_preferences.dart';
+//void main() => runApp(MaterialApp(home: QRViewExample()));
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({
@@ -84,13 +85,9 @@ Widget saveButton(BuildContext context) {
       switch (call.method) {
         case "onRecognizeQR":
           dynamic arguments = call.arguments;
-          //setState(() {
-          //            qrText = arguments.toString();
-          //});
-//              if(this.qrText.isEmpty ?? true)
- //             {
                   setState(() {
                       qrText = arguments.toString();
+                      //if(qrText.toUpperCase().contains("TDZ")){}
                       //_counter++;
                     });
                  if(!tracking.contains(this.qrText)){
@@ -105,12 +102,7 @@ Widget saveButton(BuildContext context) {
                     print('Duplicated No.');
                       print('+++++++++++++++++++++++');
                 }
-//              }
- //             else{
-  //              print('+++++++++++++++++++++++');
-    //            print('Empty No.');
-      //          print('+++++++++++++++++++++++');
- //             }
+
       }
       }
     );

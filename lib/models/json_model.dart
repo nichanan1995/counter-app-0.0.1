@@ -18,7 +18,6 @@ JsonModel.fromJson(Map<String, dynamic> parseJSON){
   id = int.parse(parseJSON['id']);
   name = parseJSON['Name'];
   user = parseJSON['User'];
-  password = parseJSON['Password'];
-  
+  password = parseJSON['Password']; 
 }
 }

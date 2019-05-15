@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   http: ^0.12.0+2
   flutter_signature_pad: ^2.0.0+1
+  shared_preferences: ^0.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,7 +35,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - images/945.png
+  - images/logostart.png
+  - images/dhl.png
+  - images/alpha.png
+  - images/kerry.jpg
+  - images/flash.png
+
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
