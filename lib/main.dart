@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 child: titleApp(),
               ),
               Padding(
-            padding: const EdgeInsets.only(right: 20.0,left: 20.0,top: 40.0,bottom: 20.0),
+            padding: const EdgeInsets.only(right: 20.0,left: 20.0,top: 20.0,bottom: 20.0),
             child: new TextField(
               //controller: Text('data'),
               keyboardType: TextInputType.number,
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
 
           ),
               Container(
-                margin: EdgeInsets.only(left: 50.0, right: 40.0,top: 50.0),
+                margin: EdgeInsets.only(left: 50.0, right: 40.0,top: 30.0),
                 child: Row(
                   children: <Widget>[
                     new Expanded(
@@ -221,11 +221,11 @@ class _HomePageState extends State<HomePage> {
     return RaisedButton(
       color: Colors.orange,
       child: Text(
-        'SignUp',
+        'Scan',
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () {
-        print('your click SignIn');
+        print('your click Scan');
         var myRounte = new MaterialPageRoute(
             builder: (BuildContext context) => QRViewExample());
         Navigator.of(context).push(myRounte);

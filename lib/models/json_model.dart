@@ -1,7 +1,7 @@
 class JsonModel {
   // Create Field
   int id;
-  String name, user, password;
+  String qrText, licen, trans, name;
 
 //   // Constructor
 //   JsonModel(
@@ -12,12 +12,12 @@ class JsonModel {
 // // password = passwordString;
 //   }
 
-  JsonModel(this.id, this.name, this.user, this.password);
+  JsonModel(this.id, this.name, this.licen, this.trans, this.qrText);
 
-JsonModel.fromJson(Map<String, dynamic> parseJSON){
-  id = int.parse(parseJSON['id']);
-  name = parseJSON['Name'];
-  user = parseJSON['User'];
-  password = parseJSON['Password']; 
-}
+  JsonModel.fromJson(Map<String, dynamic> parseJSON) {
+    id = int.parse(parseJSON['id']);
+    licen = parseJSON['Licen'];
+    trans = parseJSON['Trans'];
+    name = parseJSON['Name'];
+  }
 }
